@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse
@@ -18,6 +18,7 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import debrid
 from resources.lib.modules import log_utils
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -25,7 +26,7 @@ class source:
         self.language = ['en']
         self.domains = ['wrzcraft.net']
         self.base_link = 'http://wrzcraft.net'
-        self.search_link = '/search/%s/feed/rss2/'
+        self.search_link = '/?s=%s'
 
 
     def movie(self, imdb, title, localtitle, aliases, year):

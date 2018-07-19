@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,requests,sys,json,traceback,urllib,urlparse
@@ -26,7 +26,7 @@ class source:
         self.language = ['en']
         self.domain = 'filepursuit.com'
         self.base_link = 'https://filepursuit.com/'
-        self.search_link = '/search.php'
+        self.search_link = '/search4/'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

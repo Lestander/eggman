@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urlparse,urllib,base64
@@ -21,8 +21,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['hdmega.net/']
-        self.base_link = 'http://hdmega.net/'
+        self.domains = ['hdmega.net']
+        self.base_link = 'http://hdmega.net'
         self.search_link = '/search-movies/%s.html'
 
 

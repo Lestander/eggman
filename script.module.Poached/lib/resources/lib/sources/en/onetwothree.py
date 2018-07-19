@@ -1,20 +1,24 @@
-# -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
+"""
+    Eggman Add-on
 
-# Addon Name: Eggman
-# Addon id: plugin.video.eggman
-# Addon Provider: Eggman
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import urlparse, urllib, re, json, xbmc
 
 from resources.lib.modules import client, cleantitle, source_utils, directstream
+
 
 
 class source:
@@ -22,8 +26,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['123movies.as']
-        self.base_link = 'https://123movies.ph/'
-        self.source_link = 'https://putstream.win'
+        self.base_link = 'https://www0.123movies.as/'
+        self.source_link = 'https://gomostream.com'
         self.episode_path = '/episodes/%s-%sx%s/'
         self.movie_path = '/movies/%s-watch-online-free-123movies/'
         self.decode_file = '/decoding_v2.php'
@@ -135,7 +139,7 @@ class source:
 
             return sources
 
-        except Exception:
+        except:
             return sources
 
     def resolve(self, url):
@@ -157,7 +161,16 @@ class source:
             return
 
     def __get_movie_url(self, data):
-        pass
+            clean_title = cleantitle.geturl(data['title'])
+            query = self.movie_path % clean_title
+
+            url = urlparse.urljoin(self.base_link, query)
+            html = client.request(url)
+
+            token = re.findall('\/?watch-token=(.*?)\"', html)[0]
+
+            return url + ('?watch-token=%s' % token)
+
 
     def __xtoken(self, token, seeds):
         try:

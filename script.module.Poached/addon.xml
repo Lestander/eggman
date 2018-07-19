@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.Poached" name="Poached Module" version="1.0.0" provider-name="Eggman">
+<addon id="script.module.Poached" name="Poached Module" version="1.2.4" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="script.module.requests" />
@@ -7,6 +7,6 @@
 	<extension point="xbmc.python.module" library="lib" />
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
-		<summary lang="en">Yoda</summary>
+		<summary lang="en">Poached</summary>
 	</extension>
 </addon>

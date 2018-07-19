@@ -1,21 +1,16 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-'''
-    Eggman Add-on
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+# Addon Name: Eggman
+# Addon id: Eggmans
+# Addon Provider: Eggman
 
 
 import re,json,urllib,urlparse
@@ -30,8 +25,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['genvideos.org', 'genvideos.com']
-        self.base_link = 'http://genvideos.com'
-        self.search_link = '/watch_%s_%s.html'
+        self.base_link = 'https://genvideos.com/'
+        self.search_link = '/results?q=%s'
 
 
     def movie(self, imdb, title, localtitle, aliases, year):

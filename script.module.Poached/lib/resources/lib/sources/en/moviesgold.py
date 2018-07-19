@@ -1,38 +1,33 @@
-'''
-    Eggman Add-on
-    Copyright (C) 2016 Yoda
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+# Addon Name: Eggman
+# Addon id: Eggmans
+# Addon Provider: Eggman
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-'''
 import re
 import urllib
 import urlparse
 import json
 
-from resources.lib.modules import client, cleantitle, directstream
+from resources.lib.modules import client
+from resources.lib.modules import cleantitle
+from resources.lib.modules import directstream
+from resources.lib.modules import log_utils
 
 class source:
     def __init__(self):
-        '''
-        Constructor defines instances variables
-
-        '''
         self.priority = 1
         self.language = ['en']
-        self.domains = ['moviesgolds.net']
-        self.base_link = 'http://www.moviesgolds.net'
+        self.domains = ['moviesgolds.net', 'moviesonlinegold.com']
+        self.base_link = 'https://www.moviesonlinegold.com/'
         self.search_path = ('?s=%s')
 
     def movie(self, imdb, title, localtitle, aliases, year):

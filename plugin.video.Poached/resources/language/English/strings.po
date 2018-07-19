@@ -928,9 +928,9 @@ msgid "Click to clear search history"
 msgstr ""
 
 msgctxt "#32606"
-msgid "[COLOR=red]Prem[/COLOR]"
+msgid "[COLOR=red]Paid[/COLOR]"
 msgstr ""
 
 msgctxt "#32607"
-msgid "[COLOR=yellow]Normal[/COLOR]"
+msgid "[COLOR=blue]Free[/COLOR]"
 msgstr ""

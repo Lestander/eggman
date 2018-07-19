@@ -1,39 +1,35 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-'''
-    Eggman Add-on
-    Copyright (C) 2016
+# Addon Name: Eggman
+# Addon id: Eggmans
+# Addon Provider: Eggman
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+import requests,traceback,re,sys
 
 from bs4 import BeautifulSoup
 from resources.lib.modules import directstream
-import requests
-import sys
+from resources.lib.modules import source_utils
 
 class source:
 
     def __init__(self):
-        self.priority = 0
+        self.priority = 1
         self.language = ['en']
-        self.domain = 'vmovee.me'
-        self.base_link = 'https://vmovee.me'
-        self.search_link = '/gold-app/gold-includes/GOLD.php?seasons_post_name='
-        self.search_episode_link = '/gold-app/gold-includes/GOLD.php?season_id='
-        self.movie_link = ''
-        self.episode_link = '/gold-app/gold-includes/GOLD.php?episode_id='
+        self.domain = 'vmovee.xyz'
+        self.base_link = 'https://vmovee.xyz'
+        self.search_link = '/search?q=%s&x=0&y=0'
+        self.search_episode_link = '/search?q=%s&x=0&y=0'
+        self.movie_link = '/search?q=%s&x=0&y=0'
+        self.episode_link = '/search?q=%s&x=0&y=0'
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'}
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         tvshowtitle = tvshowtitle.replace(" ", "-")
@@ -45,69 +41,65 @@ class source:
             return url
         try:
             with requests.session() as s:
-                p = s.get(self.base_link + self.search_link + url)
+
+                p = s.get(self.base_link + self.search_link + url, headers=self.headers)
                 if p.text == '':
-                    p= s.get(self.base_link + self.search_link + url + "-all-seasons")
+                    p = s.get(self.base_link + self.search_link + url + "-all-seasons", headers=self.headers)
                     if p.text == '':
                         return url
+
                 soup = BeautifulSoup(p.text, 'html.parser')
-                season_link_list = soup.findAll('a')
-                url = []
-                season_list = {}
-                c = 0
+                season_link_list = soup.findAll('div', {'class':'episode-item'})
+                season_id = None
                 for i in season_link_list:
-                    c += 1
-                    season_list[str(c)] = (''.join(filter(lambda x: x.isdigit(), str(i.prettify()))))
+                    if i.find('span').text == 'Season %s' % season:
+                        season_id = re.findall(r'\((\d*)\)', i.find('a').prettify())[0]
 
-                p = s.get(self.base_link + self.search_episode_link + season_list[season])
-                # NOW SCRAPPING EPISODES
+                p = s.get(self.base_link + self.search_episode_link + season_id, headers=self.headers)
+
                 soup = BeautifulSoup(p.text, 'html.parser')
-                episode_link_list = soup.findAll('a')
-                episode_list = {}
-                c = 0
+                episode_link_list = soup.findAll('div', {'class':'episode-item'})
+                url = None
                 for i in episode_link_list:
-                    c += 1
-                    episode_list[str(c)] = (''.join(filter(lambda x: x.isdigit(), str(i.prettify()))))
+                    remoteEpNum = i.find('div', {'class':'episode-number'}).find('span').text
+                    if remoteEpNum == episode:
+                        url = re.findall(r'\((\d*)\)', i.find('a').prettify())[0]
 
-            url = episode_list[episode]
+            return url
         except:
-            print("Unexpected error in VMOOVE Script:", sys.exc_info()[0])
+            failure = traceback.format_exc()
+            log_utils.log('Vmovee - Exception: \n' + str(failure))
         return url
 
     def sources(self, url, hostDict, hostprDict):
+        hostDict = hostDict + hostprDict
         sources = []
-        if not url:
+        if url is None:
             return sources
 
         try:
             with requests.Session() as s:
-                p = s.get(self.base_link + self.episode_link + url)
+                p = s.get(self.base_link + self.episode_link + url, headers=self.headers)
                 soup = BeautifulSoup(p.text, 'html.parser')
-                src = soup.findAll('iframe')[0]
+                src = soup.find('iframe')
                 url = src['src']
+
                 if '//apu,litaurl.com/' in url:
-                    p = s.get(url)
+                    p = s.headers(url)
                     url = p.url
 
-                if 'thevideo' in url:
-                    sources.append(
-                        {'source': "thevideo.me",
-                         'quality': '720p',
-                         'language': "en",
-                         'url': url,
-                         'info': '',
-                         'direct': False,
-                         'debridonly': False})
+                valid, host = source_utils.checkHost(url, hostDict)
+                quality = source_utils.get_quality_simple(url)
+
+                if valid == True:
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': '',
+                     'direct': False,
+                     'debridonly': True})
         except:
-            print("Unexpected error in VMOOVE Sources Script:")
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            print(exc_type, exc_tb.tb_lineno)
-            pass
+            failure = traceback.format_exc()
+            log_utils.log('Vmovee - Exception: \n' + str(failure))
 
         return sources
 
     def resolve(self, url):
-        if 'google' in url:
-            return directstream.googlepass(url)
-        else:
-            return url
+        return url

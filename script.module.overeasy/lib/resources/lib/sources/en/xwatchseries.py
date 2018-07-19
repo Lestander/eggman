@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse,json
@@ -21,12 +21,12 @@ from resources.lib.modules import proxy
 
 class source:
     def __init__(self):
-        self.priority = 0
+        self.priority = 1
         self.language = ['en']
-        self.domains = ['xwatchseries.to','onwatchseries.to','itswatchseries.to']
-        self.base_link = 'http://dwatchseries.to'
-        self.search_link = 'http://dwatchseries.to/show/search-shows-json'
-        self.search_link_2 = 'http://dwatchseries.to/search/%s'
+        self.domains = ['xwatchseries.to','onwatchseries.to','itswatchseries.to','dwatchseries.to']
+        self.base_link = 'https://www1.swatchseries.to/'
+        self.search_link = 'https://www1.swatchseries.to/?s=%s'
+        self.search_link_2 = 'https://www1.swatchseries.to/show/search-shows-json'
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:

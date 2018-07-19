@@ -9,10 +9,10 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
-import re,traceback,base64,urllib,urlparse,json
+import re,base64,urllib,urlparse,json
 
 from resources.lib.modules import client
 from resources.lib.modules import cleantitle

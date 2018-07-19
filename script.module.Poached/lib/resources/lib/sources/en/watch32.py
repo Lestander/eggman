@@ -9,10 +9,9 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
-# FIXME: Some titles, such as Thor Ragnarok, cause exceptions and not pulling URL correct. Need to investigate.
 
 import re,traceback,urllib,urlparse
 
@@ -27,8 +26,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['watch32hd.co']
-        self.base_link = 'https://watch32hd.co'
-        self.search_link = '/watch?v=%s_%s'
+        self.base_link = 'https://watch32hd.co/'
+        self.search_link = '/results/%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

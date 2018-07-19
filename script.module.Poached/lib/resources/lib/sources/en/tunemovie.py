@@ -1,3 +1,5 @@
+# NEEDS FIXING
+
 # -*- coding: UTF-8 -*-
 #######################################################################
  # ----------------------------------------------------------------------------
@@ -9,7 +11,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 
@@ -24,9 +26,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['tunemovie.com', 'tunemovie.tv', 'tunemovie.win']
-        self.base_link = 'http://tunemovie.win'
-        self.search_link = '/search/%s.html'
+        self.domains = ['tunemovie.net']
+        self.base_link = 'http://tunemovie.net/'
+        self.search_link = '/?s=%s'
 
 
     def movie(self, imdb, title, localtitle, aliases, year):

@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import requests
@@ -23,6 +23,7 @@ class source:
         self.language = ['en']
         self.domain = 'myputlocker.me'
         self.base_link = 'http://myputlocker.me/'
+        self.search_link = '/?s=%s'
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:

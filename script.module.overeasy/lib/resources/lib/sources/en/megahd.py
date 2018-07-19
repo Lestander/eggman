@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,urllib,urlparse,json,base64,time
@@ -22,8 +22,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['megashare.vc']
-        self.base_link = 'http://www1.megashare.vc/'
+        self.domains = ['megashare.bz']
+        self.base_link = 'http://megashare.bz/'
         self.search_link = '/watch/%s-%s-.html'
         
     def movie(self, imdb, title, localtitle, aliases, year):

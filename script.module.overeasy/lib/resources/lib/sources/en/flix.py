@@ -9,16 +9,15 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
-import re, traceback urlparse, urllib, base64
+import re, urlparse, urllib, base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import cache
 from resources.lib.modules import dom_parser2
-
 
 class source:
     def __init__(self):
@@ -27,7 +26,6 @@ class source:
         self.domains = ['netflixlogin.in']
         self.base_link = 'http://netflixlogin.in'
         self.search_link = '/search-movies/%s.html'
-
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

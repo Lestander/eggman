@@ -33,7 +33,7 @@ class source:
         self.priority = 0
         self.language = ['en']
         self.domains = ['mehlizmovies.com']
-        self.base_link = 'https://www.mehlizmovies.com/'
+        self.base_link = 'https://www1.mehlizmovieshd.com/'
         self.search_link = '?s=%s'
         self.search_link2 = '/search/%s/feed/rss2/'
 

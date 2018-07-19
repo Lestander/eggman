@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse,base64
@@ -21,10 +21,10 @@ from resources.lib.modules import log_utils
 
 class source:
     def __init__(self):
-        self.priority = 0
+        self.priority = 1
         self.language = ['en']
         self.domains = ['icouchtuner.to']
-        self.base_link = 'https://icouchtuner.to/'
+        self.base_link = 'http://ecouchtuner.to/'
         self.search_link = '?s=%s'
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):

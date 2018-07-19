@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.Poached.artwork" version="1.0.0" name="Poached Artwork" provider-name="Eggman">
+<addon id="script.Poached.artwork" version="1.0.2" name="Poached Artwork" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>

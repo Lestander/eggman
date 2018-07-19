@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse,json
@@ -24,8 +24,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['bestrls.net']
-        self.base_link = 'http://bestrls.net/'
+        self.domains = ['bestrls.net','bestrls.xyz']
+        self.base_link = 'http://bestrls.xyz/'
         self.search_link = '?s=%s+%s&go=Search'
 
     def movie(self, imdb, title, localtitle, aliases, year):
@@ -123,6 +123,7 @@ class source:
                         sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': False})
                     except:
                         pass
+					#eggman sucks balls
             return sources
         except:
             failure = traceback.format_exc()

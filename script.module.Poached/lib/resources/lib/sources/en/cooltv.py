@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse,base64
@@ -27,8 +27,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['cooltvseries.com']
-        self.base_link = 'https://cooltvseries.com'
-        self.show_link = '%s/%s/season-%s/'
+        self.base_link = 'https://cooltvseries.com/'
+        self.show_link = '/%s/%s/season-%s/'
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
@@ -49,7 +49,7 @@ class source:
             start_url = self.show_link  % (self.base_link,tvshowtitle,season)
 
             html = client.request(start_url)
-            container = client.parseDOM(html, 'div', attrs={'class':'dwn-box'})[0]
+            container = client.parseDOM(html, 'div', attrs={'class':'dwn-box'})[1]
             Links = client.parseDOM(container, 'a', ret='href')
 
             for epi_url in Links:

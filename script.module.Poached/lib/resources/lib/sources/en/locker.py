@@ -8,8 +8,8 @@
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: eggman
-# Addon id: plugin.video.eggman
+# Addon Name: Eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,traceback,urllib,urlparse,json,base64,time
@@ -22,8 +22,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['putlocker.chat']
-        self.base_link = 'http://www1.putlocker.chat/'
+        self.domains = ['putlocker.io']
+        self.base_link = 'http://www2.putlocker.io/'
         self.search_link = '/watch/%s-%s-online-putlocker.html'
         
     def movie(self, imdb, title, localtitle, aliases, year):
