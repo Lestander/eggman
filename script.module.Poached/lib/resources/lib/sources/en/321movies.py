@@ -28,8 +28,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['gomoviesto.org''gostream.is','gomovies.to','gomovies.sc']
-        self.base_link = 'http://gomoviesto.org/'
+        self.domains = ['321movies.club']
+        self.base_link = 'http://321movies.club/'
         self.search_link = '/search-movies/%s.html'
 
 

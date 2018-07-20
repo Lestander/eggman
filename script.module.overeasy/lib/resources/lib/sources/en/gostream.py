@@ -1,44 +1,54 @@
-# -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
+'''
+    Eggman Add-ons
+    
 
-# Addon Name: Eggman
-# Addon id: Eggmans
-# Addon Provider: Eggman
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-import re,urllib,urlparse,time,json
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from resources.lib.modules import control
+'''
+
+import re,traceback,urlparse,urllib,base64
+
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
-from resources.lib.modules import jsunpack
-from resources.lib.modules import source_utils
+from resources.lib.modules import cache
+from resources.lib.modules import dom_parser2
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['gostream.is','gomovies.to','gomovies.sc']
-        self.base_link = 'https://www2.gomovies.sc/'
-        self.search_link = '/searching-for/%s/'
-        self.user = control.setting('gostream.user')
-        self.password = control.setting('gostream.pass')
+        self.domains = ['gomoviesto.org''gostream.is','gomovies.to','gomovies.sc']
+        self.base_link = 'http://gomoviesto.org/'
+        self.search_link = '/search-movies/%s.html'
+
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
-            return url
-        except:
-            return
+            clean_title = cleantitle.geturl(title)
+            search_url = urlparse.urljoin(self.base_link, self.search_link % clean_title.replace('-', '+'))
+            r = cache.get(client.request, 1, search_url)
+            r = client.parseDOM(r, 'div', {'id': 'movie-featured'})
+            r = [(client.parseDOM(i, 'a', ret='href'),
+                  re.findall('.+?elease:\s*(\d{4})</', i),
+                  re.findall('<b><i>(.+?)</i>', i)) for i in r]
+            r = [(i[0][0], i[1][0], i[2][0]) for i in r if
+                 (cleantitle.get(i[2][0]) == cleantitle.get(title) and i[1][0] == year)]
+            url = r[0][0]
 
+            return url
+        except Exception:
+            return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
@@ -48,101 +58,86 @@ class source:
         except:
             return
 
-
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         try:
             if url == None: return
 
             url = urlparse.parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
-            url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
-            return url
+            url['premiered'], url['season'], url['episode'] = premiered, season, episode
+            try:
+                clean_title = cleantitle.geturl(url['tvshowtitle'])+'-season-%d' % int(season)
+                search_url = urlparse.urljoin(self.base_link, self.search_link % clean_title.replace('-', '+'))
+                r = cache.get(client.request, 1, search_url)
+                r = client.parseDOM(r, 'div', {'id': 'movie-featured'})
+                r = [(client.parseDOM(i, 'a', ret='href'),
+                      re.findall('<b><i>(.+?)</i>', i)) for i in r]
+                r = [(i[0][0], i[1][0]) for i in r if
+                     cleantitle.get(i[1][0]) == cleantitle.get(clean_title)]
+                url = r[0][0]
+            except:
+                pass
+            data = client.request(url)
+            data = client.parseDOM(data, 'div', attrs={'id': 'details'})
+            data = zip(client.parseDOM(data, 'a'), client.parseDOM(data, 'a', ret='href'))
+            url = [(i[0], i[1]) for i in data if i[0] == str(int(episode))]
+
+            return url[0][1]
         except:
             return
-
 
     def sources(self, url, hostDict, hostprDict):
         try:
             sources = []
-
-            if url == None: return sources
-
-            if (self.user != '' and self.password != ''): #raise Exception()
-
-               login = urlparse.urljoin(self.base_link, '/login.html')
-
-               post = urllib.urlencode({'username': self.user, 'password': self.password, 'submit': 'Login'})
-
-               cookie = client.request(login, post=post, output='cookie', close=False)
-
-               r = client.request(login, post=post, cookie=cookie, output='extended')
-
-               headers = {'User-Agent': r[3]['User-Agent'], 'Cookie': r[4]}
-            else:
-               headers = {}
-
-
-            if not str(url).startswith('http'):
-
-                data = urlparse.parse_qs(url)
-                data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
-
-                title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
-                if 'season' in data: season = data['season']
-                if 'episode' in data: episode = data['episode']
-                year = data['year']
-
-                query = urlparse.urljoin(self.base_link, self.search_link % urllib.quote_plus(cleantitle.getsearch(title)))
-                query2 = urlparse.urljoin(self.base_link, self.search_link % re.sub('\s','+',title))
-                r = client.request(query)
-                r = client.parseDOM(r, 'div', attrs = {'class': 'ml-item'})
-                if len(r)==0:
-                    r = client.request(query2)
-                    r = client.parseDOM(r, 'div', attrs = {'class': 'ml-item'})
-                r = zip(client.parseDOM(r, 'a', ret='href'), client.parseDOM(r, 'a', ret='title'), client.parseDOM(r, 'a', ret='data-url'))
-                
-                if 'tvshowtitle' in data:                   
-                    cltitle = cleantitle.get(title+'season'+season)
-                    cltitle2 = cleantitle.get(title+'season%02d'%int(season))
-                else:
-                    cltitle = cleantitle.get(title)
-
-                r = [i for i in r if cltitle == cleantitle.get(i[1]) or cltitle2 == cleantitle.get(i[1])]
-                id = [re.findall('/(\d+)$',i[2])[0] for i in r][0]
-
-                ajx = urlparse.urljoin(self.base_link, '/ajax/movie_episodes/'+id)
-
-                r = client.request(ajx)
-                if 'episode' in data:
-                    eids = re.findall(r'title=\\"Episode\s+%02d.*?data-id=\\"(\d+)'%int(episode),r)
-                else:
-                    eids = re.findall(r'title=.*?data-id=\\"(\d+)',r)
-
-                for eid in eids:
+            r = cache.get(client.request, 1, url)
+            try:
+                v = re.findall('document.write\(Base64.decode\("(.+?)"\)', r)[0]
+                b64 = base64.b64decode(v)
+                url = client.parseDOM(b64, 'iframe', ret='src')[0]
+                try:
+                    host = re.findall('([\w]+[.][\w]+)$', urlparse.urlparse(url.strip().lower()).netloc)[0]
+                    host = client.replaceHTMLCodes(host)
+                    host = host.encode('utf-8')
+                    sources.append({
+                        'source': host,
+                        'quality': 'SD',
+                        'language': 'en',
+                        'url': url.replace('\/', '/'),
+                        'direct': False,
+                        'debridonly': False
+                    })
+                except:
+                    pass
+            except:
+                pass
+            r = client.parseDOM(r, 'div', {'class': 'server_line'})
+            r = [(client.parseDOM(i, 'a', ret='href')[0], client.parseDOM(i, 'p', attrs={'class': 'server_servername'})[0]) for i in r]
+            if r:
+                for i in r:
                     try:
-                        ajx = 'ajax/movie_token?eid=%s&mid=%s&_=%d' % (eid, id, int(time.time() * 1000))
-                        ajx = urlparse.urljoin(self.base_link, ajx)
-                        r = client.request(ajx)
-                        [x,y] = re.findall(r"_x='([^']+)',\s*_y='([^']+)'",r)[0]
-                        ajx = 'ajax/movie_sources/%s?x=%s&y=%s'%(eid,x,y)
-                        ajx = urlparse.urljoin(self.base_link, ajx)
-                        r = client.request(ajx)
-                        r = json.loads(r)
-                        r = r['playlist'][0]['sources']
-                        for i in r:
-                            try: label = source_utils.label_to_quality(i['label']) 
-                            except: label = 'SD'
-                            sources.append({'source': 'cdn', 'quality': label, 'language': 'en', 'url': i['file'], 'direct': True, 'debridonly': False})
+                        host = re.sub('Server|Link\s*\d+', '', i[1]).lower()
+                        url = i[0]
+                        host = client.replaceHTMLCodes(host)
+                        host = host.encode('utf-8')
+                        if 'other'in host: continue
+                        sources.append({
+                            'source': host,
+                            'quality': 'SD',
+                            'language': 'en',
+                            'url': url.replace('\/', '/'),
+                            'direct': False,
+                            'debridonly': False
+                        })
                     except:
                         pass
-
             return sources
-        except:
-            return sources
-
+        except Exception:
+            return
 
     def resolve(self, url):
+        if self.base_link in url:
+            url = client.request(url)
+            v = re.findall('document.write\(Base64.decode\("(.+?)"\)', url)[0]
+            b64 = base64.b64decode(v)
+            url = client.parseDOM(b64, 'iframe', ret='src')[0]
         return url
-
-
