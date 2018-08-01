@@ -2,14 +2,14 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 import re,base64,json,urlparse,urllib
@@ -18,6 +18,7 @@ from resources.lib.modules import client
 from resources.lib.modules import cleantitle
 from resources.lib.modules import directstream
 from resources.lib.modules import dom_parser2
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -26,6 +27,7 @@ class source:
         self.domains = ['cutemovie.net']
         self.base_link = 'http://cutemovie.net/'
         self.movies_search_path = ('search-movies/%s.html')
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

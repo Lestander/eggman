@@ -1,100 +1,103 @@
-'''
-    Eggman Add-on  
-	
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+# Addon Name: Eggman
+# Addon id: Eggmans
+# Addon Provider: Eggman
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+import re,traceback,urllib,urlparse,json,base64,time
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-'''
-
-import re
-import urllib
-import urlparse
-import json
-import base64
-
-from resources.lib.modules import client, cleantitle, directstream, dom_parser2
-from resources.lib.modules import debrid
+from resources.lib.modules import cleantitle
+from resources.lib.modules import dom_parser2
+from resources.lib.modules import client
 
 class source:
     def __init__(self):
-        '''
-        Constructor defines instances variables
-
-        '''
         self.priority = 1
         self.language = ['en']
-        self.domains = ['putlockers.tf']
-        self.base_link = 'http://putlockers.tf'
-        self.movies_search_path = ('search-movies/%s.html')
-
+        self.domains = ['putlocker.io']
+        self.base_link = 'http://www2.putlocker.io/'
+        self.search_link = '/search-movies/%s.html'
+        
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            clean_title = cleantitle.geturl(title).replace('-','+')
-            url = urlparse.urljoin(self.base_link, (self.movies_search_path % clean_title))
-            r = client.request(url)
-
-            r = dom_parser2.parse_dom(r, 'div', {'id': 'movie-featured'})
-            r = [dom_parser2.parse_dom(i, 'a', req=['href']) for i in r if i]
-            r = [(i[0].attrs['href'], re.search('Release:\s*(\d+)', i[0].content)) for i in r if i]
-            r = [(i[0], i[1].groups()[0]) for i in r if i[0] and i[1]]
-            r = [(i[0], i[1]) for i in r if i[1] == year]
-            if r[0]: 
-                url = r[0][0]
-                return url
-            else: return
-        except Exception:
+            clean_title = cleantitle.geturl(title)
+            url = urlparse.urljoin(self.base_link, (self.search_link %(clean_title,year)))
+            return url
+        except:
             return
-            
+
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
-        return
+        try:
+            aliases.append({'country': 'us', 'title': tvshowtitle})
+            url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year, 'aliases': aliases}
+            url = urllib.urlencode(url)
+            return url
+        except:
+            return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
-        return
+        try:
+            if url == None: return
+            url = urlparse.parse_qs(url)
+            url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
+            clean_title = cleantitle.geturl(url['tvshowtitle'])+'-s%02d' % int(season)
+            url = urlparse.urljoin(self.base_link, (self.search_link %(clean_title,url['year'])))
+            r = client.request(url)
+            r = dom_parser2.parse_dom(r, 'div', {'id': 'ip_episode'})
+            r = [dom_parser2.parse_dom(i, 'a', req=['href']) for i in r if i]
+            for i in r[0]:
+                if i.content == 'Episode %s'%episode:
+                    url = i.attrs['href']
+            return url
+        except:
+            return
 
     def sources(self, url, hostDict, hostprDict):
         try:
-            sources = []          
-            r = client.request(url)
-            r = dom_parser2.parse_dom(r, 'p', {'class': 'server_play'})
-            r = [dom_parser2.parse_dom(i, 'a', req=['href']) for i in r if i]
-            r = [(i[0].attrs['href'], re.search('/(\w+).html', i[0].attrs['href'])) for i in r if i]
-            r = [(i[0], i[1].groups()[0]) for i in r if i[0] and i[1]]
-            for i in r:
-                try:
-                    host = i[1]
-                    if str(host) in str(hostDict):
-                        host = client.replaceHTMLCodes(host)
-                        host = host.encode('utf-8')
-                        sources.append({
-                            'source': host,
-                            'quality': 'SD',
-                            'language': 'en',
-                            'url': i[0].replace('\/','/'),
-                            'direct': False,
-                            'debridonly': False
-                        })
-                except: pass
-            return sources
-        except Exception:
-            return
+            sources = []
+            if url == None: return sources
             
+            r = client.request(url)
+            quality = re.findall(">(\w+)<\/p",r)
+            if quality[0] == "HD":
+                quality = "720p"
+            else:
+                quality = "SD"
+            r = dom_parser2.parse_dom(r, 'div', {'id': 'servers-list'})
+            r = [dom_parser2.parse_dom(i, 'a', req=['href']) for i in r if i]
+
+            for i in r[0]:
+                url = {'url': i.attrs['href'], 'data-film': i.attrs['data-film'], 'data-server': i.attrs['data-server'], 'data-name' : i.attrs['data-name']}
+                url = urllib.urlencode(url)
+                sources.append({'source': i.content, 'quality': quality, 'language': 'en', 'url': url, 'direct': False, 'debridonly': False})
+            return sources
+        except:
+            return sources
+
     def resolve(self, url):
         try:
-            r = client.request(url)
-            url = re.findall('document.write.+?"([^"]*)', r)[0]
-            url = base64.b64decode(url)
-            url = re.findall('src="([^"]*)', url)[0]
+            urldata = urlparse.parse_qs(url)
+            urldata = dict((i, urldata[i][0]) for i in urldata)
+            post = {'ipplugins': 1,'ip_film': urldata['data-film'], 'ip_server': urldata['data-server'], 'ip_name': urldata['data-name'],'fix': "0"}
+            p1 = client.request('http://putlocker.io/ip.file/swf/plugins/ipplugins.php', post=post, referer=urldata['url'], XHR=True)
+            p1 = json.loads(p1)
+            p2 = client.request('http://putlocker.io/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=0' %(p1['s'],urldata['data-server']))
+            p2 = json.loads(p2)
+            p3 = client.request('http://putlocker.io/ip.file/swf/ipplayer/api.php?hash=%s' %(p2['hash']))
+            p3 = json.loads(p3)
+            n = p3['status']
+            if n == False:
+                p2 = client.request('http://putlocker.io/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=1' %(p1['s'],urldata['data-server']))
+                p2 = json.loads(p2)
+            url =  "https:%s" %p2["data"].replace("\/","/")
             return url
-        except Exception:
+        except:
             return

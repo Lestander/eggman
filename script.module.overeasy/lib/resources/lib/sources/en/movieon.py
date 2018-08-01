@@ -2,15 +2,15 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
-# Addon Provider: eggman
+# Addon id: Eggmans
+# Addon Provider: Eggman
 
 import re,traceback,urlparse,urllib,base64
 
@@ -24,7 +24,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['moviesonline.la']
-        self.base_link = 'http://www1.moviesonline.la/'
+        self.base_link = 'http://www2.moviesonline.la/'
         self.search_link = '/search-movies/%s.html'
 
 

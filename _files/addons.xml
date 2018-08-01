@@ -123,6 +123,26 @@
 	</extension>
  </addon>
 
+<addon id="script.eggman.speedtest" name="SpeedTest" version="1.0.0" provider-name="Eggman">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Accurate Internet speed/ping test results</summary>
+    <description lang="en">A script for Testing internet Upload, Download speeds as well as Ping. Forked/Cloned by @Megamind73. All credit goes to the original Devs of this Script </description>
+    <disclaimer lang="en_GB"></disclaimer>
+	<news></news>
+	<platform>all</platform>
+	<language>en</language>
+	<license>GNU GENERAL PUBLIC LICENSE Version 2</license>
+	<email></email>
+	<website></website>
+  </extension>
+</addon>
+
 <addon id="script.module.beautifulsoup"
        name="BeautifulSoup"
        version="3.2.1"
@@ -251,7 +271,7 @@
   </extension>
 </addon>
 
-<addon id="script.module.overeasy" name="Overeasy Module" version="1.5.8" provider-name="Eggman">
+<addon id="script.module.overeasy" name="Overeasy Module" version="1.5.9" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
@@ -262,7 +282,7 @@
 	</extension>
 </addon>
 
-<addon id="script.module.Poached" name="Poached Module" version="1.2.7" provider-name="Eggman">
+<addon id="script.module.Poached" name="Poached Module" version="1.2.8" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="script.module.requests" />
