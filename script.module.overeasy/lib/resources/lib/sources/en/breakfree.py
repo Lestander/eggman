@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -21,6 +21,7 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import source_utils
 from resources.lib.modules import dom_parser
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -29,9 +30,11 @@ class source:
         self.domains = ['breakfreemovies.biz']
         self.base_link = 'https://alphareign.lol/'
         self.search_link = '/movies.php?list=search&search=%s'
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
+            scraper = cfscrape.create_scraper()
             url = urlparse.urljoin(self.base_link, self.search_link)
             url = url  % (title.replace(':', ' ').replace(' ', '+'))
 

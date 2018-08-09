@@ -141,7 +141,7 @@ class source:
                     info = ' | '.join(info)
 
                     sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info,
-                                    'direct': False, 'debridonly': True})
+                                    'direct': False, 'debridonly': False})
                 except:
                     pass
 

@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -17,15 +17,15 @@ import re,urllib,urlparse
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import directstream
+from resources.lib.modules import log_utils
 from resources.lib.modules import source_utils
-
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['seehd.club', 'seehd.unblckd.bet']
-        self.base_link = 'http://seehd.club'
+        self.domains = ['seehd.club', 'seehd.unblckd.bet', 'seehd.pl']
+        self.base_link = 'https://seehd.one/'
         self.movie_link = '/%s-%04d-watch-online/'
         self.tvshow_link = '/%s'
 
@@ -77,9 +77,9 @@ class source:
                 try:
                     if 'facebook' in i or 'plus.google' in i: continue
                     url = i
-                    if 'http://24hd.org' in url and url.lower().endswith(('.mp4','ts')):
+                    if 'https://openload.co' in url and url.lower().endswith(('embed/%s')):
                         sources.append({'source': 'CDN', 'quality': quality, 'language': 'en', 'url': url,
-                                    'info': '', 'direct': True, 'debridonly': False})
+                                    'info': '', 'direct': False, 'debridonly': False})
 
                     elif 'ok.ru' in url:
                         print url
@@ -87,13 +87,13 @@ class source:
                         url = directstream.odnoklassniki(url)
                         print url
                         sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url,
-                                        'info': '', 'direct': False, 'debridonly': True})
+                                        'info': '', 'direct': False, 'debridonly': False})
 
                     elif 'vk.com' in url:
                         host = 'vk'
                         url = directstream.vk(url)
                         sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url,
-                                        'info': '', 'direct': False, 'debridonly': True})
+                                        'info': '', 'direct': False, 'debridonly': False})
 
                     else:
                         valid, host = source_utils.is_host_valid(url, hostDict)
@@ -114,5 +114,4 @@ class source:
 
     def resolve(self, url):
         return url
-
 

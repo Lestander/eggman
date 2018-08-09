@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -24,9 +24,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['hdmovie.net']
+        self.domains = ['1080pmovie.com', 'watchhdmovie.net']
         self.base_link = 'https://watchhdmovie.net'
-        self.search_link = '%s/wp-json/wp/v2/posts?search=%s'
+        self.search_link = '/?s=%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -71,5 +71,4 @@ class source:
 
     def resolve(self, url):
         return directstream.googlepass(url)
-
 
