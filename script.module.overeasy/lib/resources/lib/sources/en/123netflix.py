@@ -1,23 +1,28 @@
-# -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
+# -*- coding: utf-8 -*-
 
-# Addon Name: Eggman
-# Addon id: Eggmans
-# Addon Provider: Eggman
+'''
+    Eggmans Addons
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+    thanks to MuadDib, FilmNet, Sirius & the others iv missed
 
 import re, urlparse, urllib, base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import cache
-from resources.lib.modules import cfscrape
 from resources.lib.modules import dom_parser2
 
 
@@ -25,9 +30,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['123-netflix.com']
-        self.base_link = 'http://123-netflix.com/'
-        self.search_link = '?s=%s'
+        self.domains = ['123netflix.com']
+        self.base_link = 'http://123netflix.unblockall.org'
+        self.search_link = '/search-movies/%s.html'
 
 
     def movie(self, imdb, title, localtitle, aliases, year):

@@ -27,7 +27,7 @@ class source:
         self.language = ['en']
         self.domains = ['watch32hd.co']
         self.base_link = 'https://watch32hd.co/'
-        self.search_link = '/results/%s'
+        self.search_link = '/results?q/%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
