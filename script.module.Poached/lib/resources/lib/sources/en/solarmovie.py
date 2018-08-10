@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     thanks to MuadDib, FilmNet, Sirius & the others iv missed
+'''
 
 import re,urllib,urlparse,hashlib,random,string,json,base64,sys,xbmc,resolveurl
 
