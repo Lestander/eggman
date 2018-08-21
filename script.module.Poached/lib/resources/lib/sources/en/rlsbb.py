@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # @tantrumdev wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -91,10 +91,10 @@ class source:
             url = self.search_link % urllib.quote_plus(query)
             url = urlparse.urljoin(self.base_link, url)
 
-            url = "http://rlsbb.ru/" + query                                # this overwrites a bunch of previous lines!
-            if 'tvshowtitle' not in data: url = url + "-1080p"				# NB: I don't think this works anymore! 2b-checked. 
+            url = "http://rlsbb.ru/" + query                                
+            if 'tvshowtitle' not in data: url = url + "-1080p"				 
 
-            r = client.request(url)                                         # curl as DOM object
+            r = client.request(url)                                         
             
             if r == None and 'tvshowtitle' in data:
                 season = re.search('S(.*?)E', hdlr)
@@ -108,39 +108,34 @@ class source:
                 url = "http://rlsbb.ru/" + query
                 r = client.request(url)
 
-            # looks like some shows have had episodes from the current season released in s00e00 format before switching to YYYY-MM-DD
-            # this causes the second fallback search above for just s00 to return results and stops it from searching by date (ex. http://rlsbb.ru/vice-news-tonight-s02)
-            # so loop here if no items found on first pass and force date search second time around
+            
             for loopCount in range(0,2):
-                if loopCount == 1 or (r == None and 'tvshowtitle' in data):                     # s00e00 serial failed: try again with YYYY-MM-DD
-                    # http://rlsbb.ru/the-daily-show-2018-07-24                                 ... example landing urls
-                    # http://rlsbb.ru/stephen-colbert-2018-07-24                                ... case and "date dots" get fixed by rlsbb
-                    #query= re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)','',data['tvshowtitle'])   # this RE copied from above is just trash
+                if loopCount == 1 or (r == None and 'tvshowtitle' in data):                     
                     
-                    premDate = re.sub('[ \.]','-',data['premiered'])                            # date looks usually YYYY-MM-DD but dunno if always
-                    query = re.sub('[\\\\:;*?"<>|/\-\']', '', data['tvshowtitle'])              # quadruple backslash = one backslash :p
-                    query = query.replace("&", " and ").replace("  ", " ").replace(" ", "-")    # throw in extra spaces around & just in case
+                    
+                    premDate = re.sub('[ \.]','-',data['premiered'])                            
+                    query = re.sub('[\\\\:;*?"<>|/\-\']', '', data['tvshowtitle'])              
+                    query = query.replace("&", " and ").replace("  ", " ").replace(" ", "-")    
                     query = query + "-" + premDate                      
                     
                     url = "http://rlsbb.ru/" + query            
-                    url = url.replace('The-Late-Show-with-Stephen-Colbert','Stephen-Colbert')   # 
-                    #url = url.replace('Some-Specific-Show-Title-No2','Scene-Title2')           # shows I want...
-                    #url = url.replace('Some-Specific-Show-Title-No3','Scene-Title3')           #         ...but theTVDB title != Scene release
+                    url = url.replace('The-Late-Show-with-Stephen-Colbert','Stephen-Colbert')   
+                    
 
                     r = client.request(url)
                     
-                posts = client.parseDOM(r, "div", attrs={"class": "content"})   # get all <div class=content>...</div>
-                hostDict = hostprDict + hostDict                                # ?
+                posts = client.parseDOM(r, "div", attrs={"class": "content"})   
+                hostDict = hostprDict + hostDict                                
                 items = []
                 for post in posts:
                     try:
-                        u = client.parseDOM(post, 'a', ret='href')              # get all <a href=..... </a>
-                        for i in u:                                             # foreach href url
+                        u = client.parseDOM(post, 'a', ret='href')             
+                        for i in u:                                            
                             try:
                                 name = str(i)
                                 if hdlr in name.upper(): items.append(name)
-                                elif len(premDate) > 0 and premDate in name.replace(".","-"): items.append(name)      # s00e00 serial failed: try again with YYYY-MM-DD
-                                # NOTE: the vast majority of rlsbb urls are just hashes! Future careful link grabbing would yield 2x or 3x results
+                                elif len(premDate) > 0 and premDate in name.replace(".","-"): items.append(name)      
+                                
                             except:
                                 pass
                     except:
@@ -178,8 +173,8 @@ class source:
                     info = ' | '.join(info)
                     host = client.replaceHTMLCodes(host)
                     host = host.encode('utf-8')
-                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': host2, 'info': info, 'direct': False, 'debridonly': True})
-                    # why is this hardcoded to debridonly=True? seems like overkill but maybe there's a resource-management reason?
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': host2, 'info': info, 'direct': False, 'debridonly': False})
+                    
                 except:
                     pass
             check = [i for i in sources if not i['quality'] == 'CAM']
