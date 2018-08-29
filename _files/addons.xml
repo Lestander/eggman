@@ -50,6 +50,41 @@
 	</extension>
 </addon>
 
+<addon id="plugin.video.Poached" version="1.1.8" name="Poached" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0" />
+		<import addon="repository.eggman" version="" />
+		<import addon="script.module.Poached" />
+		<import addon="script.Poached.artwork" version="" />
+		<import addon="script.Poached.metadata" version="" />
+		<import addon="script.module.requests" />
+		<import addon="script.module.metahandler" version="" />
+		<import addon="script.module.resolveurl" version="" />
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="Poached.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Movies and TV Shows Using Resolve Url</summary>
+		<description lang="en">Please remember that Poached is not an official part of the Kodi media player.</description>
+		<disclaimer lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.</disclaimer>
+		<platform>all</platform>
+		<forum></forum>
+		<website></website>
+		<source></source>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot></screenshot>
+			<screenshot></screenshot>
+			<screenshot></screenshot>
+		</assets>
+		<news>-
+- Free movies
+- Free TV Shows</news>
+	</extension>
+</addon>
+
     <addon id="repository.eggman" name="Eggman" version="0.0.6" provider-name="Eggman">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
@@ -251,6 +286,17 @@
 	</extension>
 </addon>
 
+<addon id="script.module.Poached" name="Poached Module" version="1.5.1" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0" />
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en">Eggman</summary>
+	</extension>
+</addon>
+
 <addon id="script.module.python.koding.aio"
    name="Python Koding AIO"
    version="0.9.6.6.1"
@@ -429,6 +475,30 @@
 	<extension point="xbmc.addon.metadata">
 		<summary>Metadata for the Overeasy Addon</summary>
 		<description>Metadata for Overeasy are maintained separately to make distribution of the the addon itself easier/faster.</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="script.Poached.artwork" version="1.0.4" name="Poached Artwork" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>Artwork for the Poached Addon</summary>
+		<description></description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="script.Poached.metadata" version="1.0.0" name="Poached Metadata" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>Metadata for the Poached Addon</summary>
+		<description>Metadata for Poached are maintained separately to make distribution of the the addon itself easier/faster.</description>
 		<platform>all</platform>
 	</extension>
 </addon>
