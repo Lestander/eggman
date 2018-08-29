@@ -50,7 +50,7 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.Poached" version="1.1.8" name="Poached" provider-name="Eggman">
+<addon id="plugin.video.Poached" version="1.2.1" name="Poached" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.eggman" version="" />
@@ -286,7 +286,7 @@
 	</extension>
 </addon>
 
-<addon id="script.module.Poached" name="Poached Module" version="1.5.1" provider-name="Eggman">
+<addon id="script.module.Poached" name="Poached Module" version="1.5.4" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
