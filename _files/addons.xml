@@ -275,7 +275,7 @@
   </extension>
 </addon>
 
-<addon id="script.module.overeasy" name="Overeasy Module" version="1.7.6" provider-name="Eggman">
+<addon id="script.module.overeasy" name="Overeasy Module" version="1.7.7" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
@@ -286,7 +286,7 @@
 	</extension>
 </addon>
 
-<addon id="script.module.Poached" name="Poached Module" version="1.5.6" provider-name="Eggman">
+<addon id="script.module.Poached" name="Poached Module" version="1.5.7" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
