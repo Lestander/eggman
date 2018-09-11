@@ -17,7 +17,7 @@
   </extension>
 </addon>
 
-    <addon id="repository.eggman" name="Eggman" version="0.0.6" provider-name="Eggman">
+    <addon id="repository.eggman" name="Eggman" version="0.0.7" provider-name="Eggman">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
