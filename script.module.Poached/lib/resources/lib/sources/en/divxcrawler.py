@@ -9,7 +9,7 @@
 #######################################################################
 
 # Addon Name: Eggman
-# Addon id: plugin.video.eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 
 

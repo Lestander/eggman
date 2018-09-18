@@ -18,20 +18,21 @@ import urlparse
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import proxy
-from resources.lib.modules import cfscrape
+
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['seehd.pl']
-        self.base_link = 'http://www.seehd.pl'
-        self.search_link = '/%s-%s-watch-online/'
+        self.domains = ['iwatchflix.xyz']
+        self.base_link = 'https://iwatchflix.xyz'
+        self.movie_link = '/%s'
+        self.tv_link = '/episode/%s-season-%s-episode-%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             title = cleantitle.geturl(title)
-            url = self.base_link + self.search_link % (title,year)
+            url = self.base_link + self.movie_link % title
             return url
         except:
             return
@@ -47,10 +48,7 @@ class source:
         try:
             if not url: return
             title = url
-            season = '%02d' % int(season)
-            episode = '%02d' % int(episode)
-            se = 's%se%s' % (season,episode)
-            url = self.base_link + self.search_link % (title,se)
+            url = self.base_link + self.tv_link % (title,season,episode)
             return url
         except:
             return
@@ -59,15 +57,12 @@ class source:
     def sources(self, url, hostDict, hostprDict):
         try:
             sources = []
-            scraper = cfscrape.create_scraper()
-            r = scraper.get(url).content
+            r = client.request(url)
             try:
-                match = re.compile('<iframe.+?src="(.+?)://(.+?)/(.+?)"').findall(r)
-                for http,host,url in match: 
-                    host = host.replace('www.','')
-                    url = '%s://%s/%s' % (http,host,url)
-                    if 'seehd' in host: pass
-                    else: sources.append({'source': host,'quality': 'HD','language': 'en','url': url,'direct': False,'debridonly': False}) 
+                match = re.compile('vidoza(.+?)"').findall(r)
+                for url in match: 
+                    url = 'https://vidoza%s' % url
+                    sources.append({'source': 'Vidoza','quality': 'HD','language': 'en','url': url,'direct': False,'debridonly': False}) 
             except:
                 return
         except Exception:

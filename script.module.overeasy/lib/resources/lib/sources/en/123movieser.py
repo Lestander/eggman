@@ -1,31 +1,34 @@
-# -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
+'''
+    eggman Add-ons  
+	
 
-# Addon Name Eggman
-# Addon id: Eggmans
-# Addon Provider: Eggmans
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-import re,urllib,urlparse,json,base64,time
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''
+import re,traceback,urllib,urlparse,json,base64,time
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import dom_parser2
 from resources.lib.modules import client
-from resources.lib.modules import debrid
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['fmovies.sc']
-        self.base_link = 'http://fmovies.sc'
-        self.search_link = '/watch/%s-%s-online.html' 
+        self.domains = ['movieshd.tv', 'movieshd.is', 'movieshd.watch', 'flixanity.is', 'flixanity.me','istream.is','flixanity.online','flixanity.cc','123movies.it']
+        self.base_link = 'http://123movieser.com'
+        self.search_link = '/watch/%s-%s-online-free-123movies.html'
         
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -33,6 +36,8 @@ class source:
             url = urlparse.urljoin(self.base_link, (self.search_link %(clean_title,year)))
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('Flixanity - Exception: \n' + str(failure))
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
@@ -42,6 +47,8 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('Flixanity - Exception: \n' + str(failure))
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -59,6 +66,8 @@ class source:
                     url = i.attrs['href']
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('Flixanity - Exception: \n' + str(failure))
             return
 
     def sources(self, url, hostDict, hostprDict):
@@ -81,24 +90,28 @@ class source:
                 sources.append({'source': i.content, 'quality': quality, 'language': 'en', 'url': url, 'direct': False, 'debridonly': False})
             return sources
         except:
-            return sources
+            failure = traceback.format_exc()
+            log_utils.log('Flixanity - Exception: \n' + str(failure))
+            return
 
     def resolve(self, url):
         try:
             urldata = urlparse.parse_qs(url)
             urldata = dict((i, urldata[i][0]) for i in urldata)
             post = {'ipplugins': 1,'ip_film': urldata['data-film'], 'ip_server': urldata['data-server'], 'ip_name': urldata['data-name'],'fix': "0"}
-            p1 = client.request('http://fmovies.sc/ip.file/swf/plugins/ipplugins.php', post=post, referer=urldata['url'], XHR=True)
+            p1 = client.request('http://123movieser.com/ip.file/swf/plugins/ipplugins.php', post=post, referer=urldata['url'], XHR=True)
             p1 = json.loads(p1)
-            p2 = client.request('http://fmovies.sc/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=0' %(p1['s'],urldata['data-server']))
+            p2 = client.request('http://123movieser.com/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=0' %(p1['s'],urldata['data-server']))
             p2 = json.loads(p2)
-            p3 = client.request('http://fmovies.sc/ip.file/swf/ipplayer/api.php?hash=%s' %(p2['hash']))
+            p3 = client.request('http://123movieser.com/ip.file/swf/ipplayer/api.php?hash=%s' %(p2['hash']))
             p3 = json.loads(p3)
             n = p3['status']
             if n == False:
-                p2 = client.request('http://fmovies.sc/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=1' %(p1['s'],urldata['data-server']))
+                p2 = client.request('http://123movieser.com/ip.file/swf/ipplayer/ipplayer.php?u=%s&s=%s&n=1' %(p1['s'],urldata['data-server']))
                 p2 = json.loads(p2)
             url =  "https:%s" %p2["data"].replace("\/","/")
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('Flixanity - Exception: \n' + str(failure))
             return

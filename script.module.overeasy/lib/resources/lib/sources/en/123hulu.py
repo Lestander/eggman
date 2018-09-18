@@ -6,10 +6,10 @@
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
-####################################################################### 
+#######################################################################
 
-# Addon Name:Eggman 
-# Addon id: plugin.video.eggman
+# Addon Name: Eggman
+# Addon id: Eggmans
 # Addon Provider: Eggman
 import re
 import urllib
@@ -24,7 +24,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['123hulu.com','123hulu.unblockall.org']
-        self.base_link = 'http://123hulu.unblockall.org/'
+        self.base_link = 'http://123hulu.unblockall.org'
         self.movies_search_path = ('search-movies/%s.html')
 
     def movie(self, imdb, title, localtitle, aliases, year):

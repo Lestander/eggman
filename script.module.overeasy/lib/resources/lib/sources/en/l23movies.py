@@ -10,7 +10,8 @@
 
 # Addon Name: Eggman
 # Addon id: Eggmans
-# Addon Provider: Eggman
+# Addon Provider: Eggmans
+
 import re
 import urllib
 import urlparse
@@ -18,13 +19,14 @@ import json
 import base64
 
 from resources.lib.modules import client, cleantitle, directstream, dom_parser2
+from resources.lib.modules import debrid
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['123hulu.com','123hulu.unblockall.org']
-        self.base_link = 'http://123hulu.unblockall.org'
+        self.domains = ['l23movies.com']
+        self.base_link = 'http://l23movies.com'
         self.movies_search_path = ('search-movies/%s.html')
 
     def movie(self, imdb, title, localtitle, aliases, year):

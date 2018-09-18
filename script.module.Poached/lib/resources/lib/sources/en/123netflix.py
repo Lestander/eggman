@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
+
 '''
-    Eggman Add-ons
-    
+    Eggmans Addons
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,22 +15,24 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+    
+    thanks to MuadDib, FilmNet, Sirius & the others iv missed
 '''
 
-import re,traceback,urlparse,urllib,base64
+import re, urlparse, urllib, base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import cache
 from resources.lib.modules import dom_parser2
 
+
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['321movies.club']
-        self.base_link = 'http://321movies.club/'
+        self.domains = ['123netflix.com']
+        self.base_link = 'http://123netflix.unblockall.org'
         self.search_link = '/search-movies/%s.html'
 
 
@@ -90,7 +93,7 @@ class source:
         try:
             sources = []
             r = cache.get(client.request, 1, url)
-            try:							   
+            try:
                 v = re.findall('document.write\(Base64.decode\("(.+?)"\)', r)[0]
                 b64 = base64.b64decode(v)
                 url = client.parseDOM(b64, 'iframe', ret='src')[0]

@@ -12,33 +12,25 @@
 # Addon id: Eggmans
 # Addon Provider: Eggman
 
-import re
-import urllib
-import urlparse
+import re,urllib,urlparse
+
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import proxy
-from resources.lib.modules import cfscrape
+
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['seehd.pl']
-        self.base_link = 'http://www.seehd.pl'
-        self.search_link = '/%s-%s-watch-online/'
+        self.domains = ['my-project-free.tv']
+        self.base_link = 'https://my-project-free.tv'
+        self.search_link = '/episode/%s-season-%s-episode-%s'
 
-    def movie(self, imdb, title, localtitle, aliases, year):
-        try:
-            title = cleantitle.geturl(title)
-            url = self.base_link + self.search_link % (title,year)
-            return url
-        except:
-            return
-			
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
-            url = cleantitle.geturl(tvshowtitle)
+            clean_title = cleantitle.geturl(tvshowtitle)
+            url = clean_title
             return url
         except:
             return
@@ -46,33 +38,34 @@ class source:
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         try:
             if not url: return
-            title = url
-            season = '%02d' % int(season)
-            episode = '%02d' % int(episode)
-            se = 's%se%s' % (season,episode)
-            url = self.base_link + self.search_link % (title,se)
+            tvshowtitle = url
+            url = self.base_link + self.search_link % (tvshowtitle, int(season), int(episode))
             return url
         except:
             return
 
-
     def sources(self, url, hostDict, hostprDict):
         try:
             sources = []
-            scraper = cfscrape.create_scraper()
-            r = scraper.get(url).content
+            r = client.request(url)
             try:
-                match = re.compile('<iframe.+?src="(.+?)://(.+?)/(.+?)"').findall(r)
-                for http,host,url in match: 
-                    host = host.replace('www.','')
+                data = re.compile("callvalue\('.+?','.+?','(.+?)://(.+?)/(.+?)'\)",re.DOTALL).findall(r)
+                for http,host,url in data:
                     url = '%s://%s/%s' % (http,host,url)
-                    if 'seehd' in host: pass
-                    else: sources.append({'source': host,'quality': 'HD','language': 'en','url': url,'direct': False,'debridonly': False}) 
+                    sources.append({
+                        'source': host,
+                        'quality': 'SD',
+                        'language': 'en',
+                        'url': url,
+                        'direct': False,
+                        'debridonly': False
+                    })
             except:
-                return
+                pass
+            return sources
         except Exception:
             return
-        return sources
+
 
     def resolve(self, url):
         return url
