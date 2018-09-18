@@ -146,6 +146,9 @@ class source:
             return json_data if (len(json_data) > 1 or json_data[0]['meta'].lower() != 'more') else ()
         else:
             return ()
+        
+    def resolve(self, url):
+        return url
 
 
     def _debug(self, name, val):
