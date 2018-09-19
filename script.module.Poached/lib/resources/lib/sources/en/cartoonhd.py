@@ -1,16 +1,21 @@
 # -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
 
-# Addon Name: Eggman
-# Addon id: Eggmans
-# Addon Provider: Eggman
+'''
+    Eggman Add-on
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
 
 import re,traceback,urllib,urlparse,json,base64,time,xbmc
 
@@ -22,10 +27,10 @@ from resources.lib.modules import source_utils
 
 class source:
     def __init__(self):
-        self.priority = 1
+        self.priority = 0
         self.language = ['en']
-        self.domains = ['putlocker.systems', 'cartoonhd.website', 'cartoonhd.press']
-        self.base_link = 'https://cartoonhd.press/'
+        self.domains = ['putlocker.systems', 'cartoonhd.website', 'cartoonhd.online', 'cartoonhd.cc', 'cartoonhd.life', 'cartoonhd.online', 'cartoonhd.io']
+        self.base_link = 'https://cartoonhd.io'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -65,7 +70,7 @@ class source:
     def searchShow(self, title, season, episode, aliases, headers):
         try:
             for alias in aliases:
-                url = '%s/tv-series/%s/season/%01d/episode/%01d' % (self.base_link, cleantitle.geturl(title), int(season), int(episode))
+                url = '%s/show/%s/season/%01d/episode/%01d' % (self.base_link, cleantitle.geturl(title), int(season), int(episode))
                 url = client.request(url, headers=headers,output='geturl', timeout='10')
                 if not url == None and url != self.base_link: break
             return url
@@ -77,12 +82,12 @@ class source:
     def searchMovie(self, title, year, aliases, headers):
         try:
             for alias in aliases:
-                url = '%s/film/%s' % (self.base_link, cleantitle.geturl(alias['title']))
+                url = '%s/full-movie/%s' % (self.base_link, cleantitle.geturl(alias['title']))
                 url = client.request(url, headers=headers, output='geturl', timeout='10')
                 if not url == None and url != self.base_link: break
             if url == None:
                 for alias in aliases:
-                    url = '%s/film/%s-%s' % (self.base_link, cleantitle.geturl(alias['title']), year)
+                    url = '%s/full-movie/%s-%s' % (self.base_link, cleantitle.geturl(alias['title']), year)
                     url = client.request(url, headers=headers, output='geturl', timeout='10')
                     if not url == None and url != self.base_link: break
 
