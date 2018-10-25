@@ -17,6 +17,39 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.numbersbynumbers" version="2.0.0.4" name="[COLOR white][B]NuMbErS[/B][/COLOR]" provider-name="[COLOR gold][B][Brackets][/B][/COLOR]">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0" />
+		<import addon="script.module.numbersbynumbers" />
+		<import addon="script.numbersbynumbers.artwork" />
+		<import addon="script.numbersbynumbers.metadata" />
+		<import addon="script.module.urlresolver" version="5.0.20"/>
+		<import addon="script.module.requests" />
+		<import addon="script.module.metahandler" />
+                <import addon="plugin.video.youtube"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Movies and TV Shows on [COLOR gold]NuMbErS[/COLOR]</summary>
+		<description lang="en">Please remember that NuMbErS is not an official part of the Kodi media player you are running, and therefore is not to be mentioned within official support channels of Kodi, this addon has nothing to do with the media player itself, nor it’s intended use, it is simply a third party plugin which has been added to your system.</description>
+		<disclaimer lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.</disclaimer>
+		<platform>all</platform>
+		<forum></forum>
+		<website></website>
+		<source></source>
+		<assets>
+			<icon>icon.gif</icon>
+			<fanart>fanart.jpg</fanart>
+		</assets>
+		<news>
+V2.0.0.3
+- The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.
+        </news>
+	</extension>
+</addon>
+
 <addon id="plugin.video.overeasy" version="1.4.3" name="Overeasy" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
@@ -272,6 +305,20 @@
   </extension>
 </addon>
 
+<addon id="script.module.numbersbynumbers" name="NuMbErS Module" version="1.00.036" provider-name="Brackets">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0" />
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en">NuMbErS</summary>
+        <assets>
+	      <icon>icon.png</icon>
+		</assets>
+	</extension>
+</addon>
+
 <addon id="script.module.overeasy" name="Overeasy Module" version="1.9.4" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
@@ -452,6 +499,36 @@
 		<description lang="hr">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju, pojednostavnjuje razvoj priključaka za video dodatke koji zahtjevaju višestruke video izvore.</description>
 		<forum>https://www.tvaddons.co/forums</forum>
         <website>https://www.tvaddons.co</website>
+	</extension>
+</addon>
+
+<addon id="script.numbers.artwork" version="1.0.0" name="Numbers Artwork" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>Themes for the Numbers Addon</summary>
+		<description>Themes for Numbers are maintained separately to make distribution of the the addon itself easier/faster.</description>
+		<platform>all</platform>
+        <assets>
+	      <icon>icon.png</icon>
+		</assets>
+	</extension>
+</addon>
+
+<addon id="script.numbers.metadata" version="1.0.5" name="Numbers Metadata" provider-name="Eggman">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>Metadata for NuMbErS Addon</summary>
+		<description>Metadata for NuMbErS are maintained separately to make distribution of the the addon itself easier/faster.</description>
+		<platform>all</platform>
+        <assets>
+	      <icon>icon.png</icon>
+		</assets>
 	</extension>
 </addon>
 
