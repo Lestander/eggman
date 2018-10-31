@@ -17,6 +17,32 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.ezzerman" name="M-E-T-V" version="1.0.4" provider-name="Ezzer,Mike">
+    <requires>
+        <import addon="xbmc.python" version="2.19.0" />
+        <import addon="script.module.universalscrapers" version="0.5.5" />
+        <import addon="script.module.python.koding.aio" version="0.9.6.6" />
+        <import addon="script.module.beautifulsoup" version="3.2.1" />
+        <import addon="script.module.requests" version="2.9.1" />
+        <import addon="script.module.addon.common" version="2.0.0" />
+        <import addon="script.module.xmltodict" version="0.9.0" />
+        <!--<import addon="script.module.web-pdb" version="1.0"/>-->
+        <!--<import addon="script.module.web-pdb" version="1.0"/>-->
+        <import addon="script.module.resolveurl" />
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>audio video</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py" start="[login|startup]" />
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Movies and TV Shows</summary>
+        <description lang="en">All content is found across the web freely. The developer is in no way affiliated with Kodi or XBMC.</description>
+        <platform>all</platform>
+        <website>www.noobsandnerds.com</website>
+        <video_guide>xtOqLY5PJDY</video_guide>
+    </extension>
+</addon>
+
 <addon id="plugin.video.overeasy" version="1.4.3" name="Overeasy" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
@@ -95,6 +121,23 @@
         <extension point="xbmc.addon.metadata">
             <summary>Eggman Repo</summary>
             <description>Eggman Repo</description>
+            <platform>all</platform>
+    </extension>
+</addon>
+
+    <addon id="repository.EzzerMacsWizard" name="EzzerMacs Wizard Repository" version="1.1.2" provider-name="EzzerMac">
+        <requires>
+            <import addon="xbmc.addon" version="12.0.0"/>
+        </requires>
+        <extension point="xbmc.addon.repository" name="EzzerMacs Wizard Repository">
+            <info compressed="false">http://miniaturelife67.co.uk/_repo/addons.xml</info>
+            <checksum>http://miniaturelife67.co.uk/_repo/addons.xml.md5</checksum>
+            <datadir zip="true">http://miniaturelife67.co.uk/_repo/</datadir>
+            <hashes>false</hashes>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>Install all the latest Builds</summary>
+            <description>Welcome to the New and Improved EZZERMACS WIZARD for all your Community Builds, All the Help and Assistance can be found Here</description>
             <platform>all</platform>
     </extension>
 </addon>
