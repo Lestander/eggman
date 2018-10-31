@@ -29,8 +29,8 @@ class source:
 	def __init__(self):
 		self.priority = 1
 		self.language = ['en']
-		self.domains = ['openloadmovie.ws']
-		self.base_link = 'https://openloadmovie.ws'
+		self.domains = ['openloadmovie.org']
+		self.base_link = 'https://openloadmovie.org'
 
 	def movie(self, imdb, title, localtitle, aliases, year):
 		try:

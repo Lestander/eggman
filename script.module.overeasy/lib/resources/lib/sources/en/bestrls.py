@@ -16,6 +16,7 @@ import re,traceback,urllib,urlparse,json
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
+from resources.lib.modules import debrid
 from resources.lib.modules import control
 from resources.lib.modules import log_utils
 from resources.lib.modules import source_utils
@@ -24,8 +25,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['bestrls.net','bestrls.xyz']
-        self.base_link = 'http://bestrls.xyz/'
+        self.domains = ['oorls.xyz']
+        self.base_link = 'http://oorls.xyz/'
         self.search_link = '?s=%s+%s&go=Search'
 
     def movie(self, imdb, title, localtitle, aliases, year):
@@ -97,6 +98,7 @@ class source:
             sources = []
 
             if url == None: return sources
+			if debrid.status() == False: raise Exception()
 
             hostDict = hostprDict + hostDict
             pages = url

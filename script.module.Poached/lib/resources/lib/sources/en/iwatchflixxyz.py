@@ -25,7 +25,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['iwatchflix.xyz']
-        self.base_link = 'https://iwatchflix.xyz'
+        self.base_link = 'https://iwatchflix.co'
         self.movie_link = '/%s'
         self.tv_link = '/episode/%s-season-%s-episode-%s'
 
