@@ -82,7 +82,7 @@
 	</extension>
 </addon>
 
-    <addon id="repository.eggman" name="Eggman" version="0.0.8" provider-name="Eggman">
+    <addon id="repository.eggman" name="Eggman" version="0.0.9" provider-name="Eggman">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
